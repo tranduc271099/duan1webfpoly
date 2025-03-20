@@ -1,0 +1,1 @@
+app/views/guest/product_detail.php
