@@ -40,7 +40,7 @@ class Product
     {
         try {
             $stmt = $this->db->prepare("INSERT INTO products (name, price, description, image, quantity, category_id) 
-                                        VALUES (:name, :price, :description, :image, :quantity, :category_id)");
+                                    VALUES (:name, :price, :description, :image, :quantity, :category_id)");
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':price', $price);
             $stmt->bindParam(':description', $description);
@@ -54,12 +54,13 @@ class Product
         }
     }
 
+
     public function updateProduct($id, $name, $price, $description, $image, $quantity, $category_id)
     {
         try {
             $stmt = $this->db->prepare("UPDATE products SET name = :name, price = :price, description = :description,
-                                        image = :image, quantity = :quantity, category_id = :category_id 
-                                        WHERE id = :id");
+                                    image = :image, quantity = :quantity, category_id = :category_id 
+                                    WHERE id = :id");
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':price', $price);
@@ -73,6 +74,7 @@ class Product
             return false;
         }
     }
+
 
     public function deleteProduct($id)
     {

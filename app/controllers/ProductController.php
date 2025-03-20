@@ -47,6 +47,7 @@ class ProductController
 
         // Xử lý nếu form được submit (phương thức POST)
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Lấy dữ liệu từ form
             $name = $_POST['name'];
             $price = $_POST['price'];
             $description = $_POST['description'];
@@ -74,7 +75,7 @@ class ProductController
                 }
             }
 
-            
+            // Thêm sản phẩm vào cơ sở dữ liệu
             if ($this->productModel->createProduct($name, $price, $description, $image, $quantity, $category_id)) {
                 $message = "Sản phẩm đã được thêm thành công!";
                 header("Location: index.php?page=products&message=" . urlencode($message));
@@ -84,9 +85,10 @@ class ProductController
             }
         }
 
-        
+        // Truyền danh mục vào view để hiển thị trong form
         include './app/views/admin/products/create.php';
     }
+
 
     // Cập nhật sản phẩm
     public function updateProduct($id)
@@ -99,6 +101,7 @@ class ProductController
         $product = $this->productModel->getProductById($id);
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Lấy dữ liệu từ form
             $name = $_POST['name'];
             $price = $_POST['price'];
             $description = $_POST['description'];
@@ -127,14 +130,13 @@ class ProductController
                 $target_file = $upload_dir . $image;
 
                 // Upload file
-                if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
-                    // File uploaded successfully
-                } else {
+                if (!move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
                     $image = $product['image']; // Giữ nguyên ảnh cũ nếu upload thất bại
                     $message = "Có lỗi xảy ra khi tải lên hình ảnh.";
                 }
             }
 
+            // Cập nhật sản phẩm
             if ($this->productModel->updateProduct($id, $name, $price, $description, $image, $quantity, $category_id)) {
                 $message = "Sản phẩm đã được cập nhật thành công!";
                 header("Location: index.php?page=products&message=" . urlencode($message));
@@ -147,6 +149,7 @@ class ProductController
         // Truyền danh mục và sản phẩm vào view
         include './app/views/admin/products/edit.php';
     }
+
 
     // Xóa sản phẩm
     public function deleteProduct($id)

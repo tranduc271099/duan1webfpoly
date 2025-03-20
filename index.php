@@ -1,45 +1,68 @@
 <?php
-// Kết nối cơ sở dữ liệu
+
 require_once 'app/config/database.php';
 
-// Tải các Controller cần thiết
+
 require_once 'app/controllers/ProductController.php';
 require_once 'app/controllers/CategoryController.php';
 
 
-// Khởi tạo Controller với kết nối database
 $productController = new ProductController($db);
 $categoryController = new CategoryController($db);
 
-// Lấy tham số từ URL
-// Đảm bảo rằng các controller đã được import đúng và đường dẫn tới các view cũng chính xác
+
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
+
 
 switch ($page) {
     case 'products':
-        $productController->listProducts(); // Lấy danh sách sản phẩm từ controller
+        $productController->listProducts();
         break;
-
     case 'product':
         if (isset($_GET['id'])) {
-            $productController->viewProduct($_GET['id']); // Xem chi tiết sản phẩm
+            $productController->viewProduct($_GET['id']);
         } else {
             echo "Sản phẩm không tồn tại!";
         }
         break;
-
+    case 'create_product':
+        $productController->createProduct();
+        break;
+    case 'edit_product':
+        if (isset($_GET['id'])) {
+            $productController->updateProduct($_GET['id']);
+        } else {
+            echo "Sản phẩm không tồn tại!";
+        }
+        break;
+    case 'delete_product':
+        if (isset($_GET['id'])) {
+            $productController->deleteProduct($_GET['id']);
+        } else {
+            echo "Sản phẩm không tồn tại!";
+        }
+        break;
     case 'categories':
         $categoryController->listCategories();
         break;
-    case 'category':
+    case 'create_category':
+        $categoryController->createCategory();
+        break;
+    case 'edit_category':
         if (isset($_GET['id'])) {
-            $categoryController->viewCategory($_GET['id']); // Xem chi tiết danh mục
+            $categoryController->updateCategory($_GET['id']);
         } else {
             echo "Danh mục không tồn tại!";
         }
         break;
-
+    case 'delete_category':
+        if (isset($_GET['id'])) {
+            $categoryController->deleteCategory($_GET['id']);
+        } else {
+            echo "Danh mục không tồn tại!";
+        }
+        break;
     default:
-        include 'app/views/guest/list.php'; // Hiển thị trang chủ cho khách hàng
+        include 'app/views/guest/home.php';
         break;
 }

@@ -20,7 +20,7 @@
 
         <div class="card">
             <div class="card-body">
-                <form action="index.php?page=products&action=create" method="POST" enctype="multipart/form-data">
+                <form action="index.php?page=create_product" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="name" class="form-label">Tên sản phẩm</label>
                         <input type="text" class="form-control" id="name" name="name" required>
@@ -43,8 +43,6 @@
                         <select class="form-select" id="category_id" name="category_id" required>
                             <option value="">-- Chọn danh mục --</option>
                             <?php
-                            // Giả sử bạn đã lấy danh sách danh mục từ controller
-                            // và truyền vào view qua biến $categories
                             if (isset($categories) && is_array($categories)) {
                                 foreach ($categories as $category) {
                                     echo "<option value='" . $category['id'] . "'>" . $category['name'] . "</option>";
